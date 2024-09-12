@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #555;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        input[type="file"],
+        input[type="text"],
+        input[type="submit"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #28a745;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ title }}</h1>
+
+        <h2>Train the Model</h2>
+        <form action="{{ url_for('train') }}" method="POST" enctype="multipart/form-data">
+            <input type="file" name="image1" required>
+            <input type="text" name="label1" placeholder="Enter label for Image 1" required>
+            <input type="file" name="image2" required>
+            <input type="text" name="label2" placeholder="Enter label for Image 2" required>
+            <input type="submit" value="Train">
+        </form>
+
+        <h2>Encrypt an Image</h2>
+        <form action="{{ url_for('encrypt') }}" method="POST" enctype="multipart/form-data">
+            <input type="file" name="image" required>
+            <input type="submit" value="Encrypt">
+        </form>
+
+        <h2>Decrypt an Image</h2>
+        <form action="{{ url_for('decrypt') }}" method="POST">
+            <input type="text" name="encrypted_data" placeholder="Enter encrypted data" required>
+            <input type="submit" value="Decrypt">
+        </form>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</body>
+</html>
